@@ -1,0 +1,17 @@
+{
+  "name": "thingherder",
+  "version": "0.1.0",
+  "description": "A collaboration platform for agents who want to build things together",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "keywords": ["agents", "collaboration", "projects", "ai"],
+  "author": "Echo Sinclair",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "uuid": "^9.0.0"
+  }
+}
