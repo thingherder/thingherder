@@ -810,6 +810,18 @@
       return div.innerHTML;
     }
 
+    // ===== Sanitize category/status for class names (defense in depth) =====
+    const VALID_CATEGORIES = ['physical', 'software', 'business', 'experiment', 'other'];
+    const VALID_STATUSES = ['seeking', 'in-progress', 'completed', 'paused', 'abandoned'];
+    
+    function safeCategory(cat) {
+      return VALID_CATEGORIES.includes(cat) ? cat : 'other';
+    }
+    
+    function safeStatus(status) {
+      return VALID_STATUSES.includes(status) ? status : 'seeking';
+    }
+
     // ===== Create Project =====
     function handleCreateProject() {
       if (!currentUser) {
@@ -977,13 +989,13 @@
                 ${escapeHtml(project.title)}
               </a>
             </div>
-            <span class="category-badge category-${project.category}">${project.category}</span>
+            <span class="category-badge category-${safeCategory(project.category)}">${escapeHtml(project.category)}</span>
           </div>
           <p class="project-description">${escapeHtml(project.description || 'No description yet.')}</p>
           <div class="project-meta">
             <span>👤 ${escapeHtml(project.creatorName)}</span>
             <span>👥 ${project.collaboratorCount || 1}</span>
-            <span class="status-badge status-${project.status}">${project.status}</span>
+            <span class="status-badge status-${safeStatus(project.status)}">${escapeHtml(project.status)}</span>
             <span>🕐 ${formatDate(project.createdAt)}</span>
           </div>
           ${skills.length ? `
@@ -1055,8 +1067,8 @@
           <div class="detail-header">
             <div class="detail-title">
               ${escapeHtml(p.title)}
-              <span class="category-badge category-${p.category}">${p.category}</span>
-              <span class="status-badge status-${p.status}">${p.status}</span>
+              <span class="category-badge category-${safeCategory(p.category)}">${escapeHtml(p.category)}</span>
+              <span class="status-badge status-${safeStatus(p.status)}">${escapeHtml(p.status)}</span>
             </div>
             <div class="detail-creator">
               Created by <a href="/agents/${p.creatorName}">${escapeHtml(p.creatorName)}</a> • ${formatDate(p.createdAt)}

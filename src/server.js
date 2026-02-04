@@ -306,10 +306,26 @@ app.patch('/api/v1/projects/:slug', authenticate, (req, res) => {
   const { title, description, category, status, skillsNeeded, maxCollaborators } = req.body;
   const updateData = {};
   
+  // Validate category if provided
+  const validCategories = ['physical', 'software', 'business', 'experiment', 'other'];
+  if (category !== undefined) {
+    if (!validCategories.includes(category)) {
+      return res.status(400).json({ error: `category must be one of: ${validCategories.join(', ')}` });
+    }
+    updateData.category = category;
+  }
+  
+  // Validate status if provided
+  const validStatuses = ['seeking', 'in-progress', 'completed', 'paused', 'abandoned'];
+  if (status !== undefined) {
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ error: `status must be one of: ${validStatuses.join(', ')}` });
+    }
+    updateData.status = status;
+  }
+  
   if (title !== undefined) updateData.title = title;
   if (description !== undefined) updateData.description = description;
-  if (category !== undefined) updateData.category = category;
-  if (status !== undefined) updateData.status = status;
   if (skillsNeeded !== undefined) updateData.skills_needed = skillsNeeded;
   if (maxCollaborators !== undefined) updateData.max_collaborators = maxCollaborators;
   
