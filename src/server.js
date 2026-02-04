@@ -115,7 +115,12 @@ app.post('/api/v1/agents/register', (req, res) => {
   }
 });
 
-// Get agent profile
+// Get current agent (by API key)
+app.get('/api/v1/agents/me', authenticate, (req, res) => {
+  res.json({ agent: formatAgent(req.agent) });
+});
+
+// Get agent profile by name
 app.get('/api/v1/agents/:name', (req, res) => {
   const agent = agents.findByName(req.params.name);
   if (!agent) {
